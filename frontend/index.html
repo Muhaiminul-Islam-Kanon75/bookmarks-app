@@ -1,25 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bookmarks</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div class="container">
-    <h1>My Bookmarks</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="theme-color"
+      content="#f6f7f2"
+    />
+    <meta
+      name="description"
+      content="A calm home for all the links you want to keep."
+    />
+    <title>Bookmarks — your personal link library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Bookmark navigation">
+        <a class="brand" href="#" aria-label="Pocketbook home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M6.5 5.75A2.75 2.75 0 0 1 9.25 3h8A2.75 2.75 0 0 1 20 5.75v13.5a.75.75 0 0 1-1.17.62L13.5 16.3l-5.33 3.57A.75.75 0 0 1 7 19.25V6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M4 7.5v11a2 2 0 0 0 2 2h1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+          </span>
+          <span class="brand-name">pocketbook<span>.</span></span>
+        </a>
 
-    <form id="bookmark-form">
-      <input type="text" id="title" placeholder="Title" required />
-      <input type="url" id="url" placeholder="https://example.com" required />
-      <input type="text" id="tag" placeholder="Tag (optional)" />
-      <button type="submit">Add Bookmark</button>
-    </form>
+        <div class="sidebar-section">
+          <p class="sidebar-label">LIBRARY</p>
+          <button class="nav-item is-active" id="all-bookmarks" type="button">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="4" y="4" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.7" />
+              <rect x="14" y="4" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.7" />
+              <rect x="4" y="14" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.7" />
+              <rect x="14" y="14" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.7" />
+            </svg>
+            <span>All bookmarks</span>
+            <span class="nav-count" id="bookmark-count">0</span>
+          </button>
+        </div>
 
-    <ul id="bookmark-list"></ul>
-  </div>
+        <div class="sidebar-section tags-section">
+          <p class="sidebar-label">YOUR TAGS</p>
+          <div class="tag-navigation" id="tag-navigation"></div>
+        </div>
 
-  <script src="script.js"></script>
-</body>
+        <div class="sidebar-note">
+          <span class="note-sparkle" aria-hidden="true">✳</span>
+          <p>A little space for all the things worth coming back to.</p>
+        </div>
+        <div class="sidebar-footer">
+          <span class="status-dot" aria-hidden="true"></span>
+          Your personal library
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <span class="breadcrumb">YOUR SPACE <span>/</span> LIBRARY</span>
+          <span class="topbar-date" id="today-date"></span>
+        </header>
+
+        <section class="welcome-section" aria-labelledby="page-title">
+          <div>
+            <p class="eyebrow">A PLACE TO KEEP THE GOOD STUFF</p>
+            <h1 id="page-title">Good things,<br /><span>kept close.</span></h1>
+            <p class="welcome-copy">
+              Save the links that inspire you, teach you, or make you think.
+            </p>
+          </div>
+          <div class="welcome-art" aria-hidden="true">
+            <div class="art-orbit orbit-one"></div>
+            <div class="art-orbit orbit-two"></div>
+            <div class="art-star">✳</div>
+            <div class="art-caption">COLLECT<br />YOUR CURIOSITY</div>
+          </div>
+        </section>
+
+        <section class="add-section" aria-labelledby="add-title">
+          <div class="section-heading add-heading">
+            <div>
+              <p class="eyebrow">GROW YOUR COLLECTION</p>
+              <h2 id="add-title">Save a new link</h2>
+            </div>
+            <span class="add-icon" aria-hidden="true">+</span>
+          </div>
+          <form id="bookmark-form">
+            <label class="field">
+              <span>Title</span>
+              <input type="text" id="title" placeholder="What do you want to remember?" required />
+            </label>
+            <label class="field">
+              <span>Link</span>
+              <input type="url" id="url" placeholder="https://example.com" required />
+            </label>
+            <label class="field tag-field">
+              <span>Tag <small>OPTIONAL</small></span>
+              <input type="text" id="tag" placeholder="e.g. design, reading" />
+            </label>
+            <button class="primary-button" type="submit">
+              <span>Save bookmark</span>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </form>
+          <p class="form-status" id="form-status" aria-live="polite"></p>
+        </section>
+
+        <section class="library-section" aria-labelledby="library-title">
+          <div class="library-heading">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">THE COLLECTION</p>
+                <h2 id="library-title">Your bookmarks <span id="visible-count"></span></h2>
+              </div>
+            </div>
+            <label class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.7" />
+                <path d="m16 16 4.2 4.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+              </svg>
+              <span class="visually-hidden">Search bookmarks</span>
+              <input id="bookmark-search" type="search" placeholder="Find something..." />
+              <kbd>/</kbd>
+            </label>
+          </div>
+          <p class="page-status" id="page-status" aria-live="polite">Loading your bookmarks…</p>
+          <ul class="bookmark-grid" id="bookmark-list" aria-live="polite"></ul>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
 </html>
