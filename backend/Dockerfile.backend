@@ -1,0 +1,16 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install --omit=dev
+# copy whole src directory to ./ as src named directory
+COPY src/ ./src/
+
+# Copy all the contents of the src to destination
+# COPY src ./
+
+EXPOSE 4000
+
+ENTRYPOINT [ "node", "src/server.js" ]
