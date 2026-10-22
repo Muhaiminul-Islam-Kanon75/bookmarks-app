@@ -1,0 +1,67 @@
+name: bookmarks-app
+
+networks:
+  bookmarks-net: 
+    driver: bridge
+
+volumes:
+  bookmark-data:
+    driver: local
+  redis-data: 
+    driver: local
+
+services:
+  pg-db: 
+    image: postgres:16
+    container_name: postgres
+    restart: unless-stopped
+    networks:
+      - bookmarks-net
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=bookmarks
+      - POSTGRES_PORT=5432
+    volumes:
+      - bookmark-data:/var/lib/postgresql/data
+  redis-db: 
+    image: redis:8.8
+    container_name: redis
+    restart: unless-stopped
+    networks:
+      - bookmarks-net
+    volumes:
+      - redis-data:/data
+    environment:
+      - REDIS_PORT=6379
+      - REDIS_HOST=redis
+  backend: 
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    image: bookmarks-backend:v1
+    container_name: backend
+    restart: on-failure
+    networks:
+      - bookmarks-net
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/bookmarks
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - pg-db
+      - redis-db
+    ports:
+      - "4000:4000"
+  frontend: 
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    image: bookmarks-frontend:v1
+    container_name: bookmark-front-cont
+    ports:
+      - "9075:80"
+    depends_on:
+      - backend
+    networks:
+      - bookmarks-net
+
