@@ -1,0 +1,10 @@
+FROM nginx:alpine
+
+WORKDIR /usr/share/nginx/html/bookmark-app/
+
+COPY index.html script.js style.css ./
+COPY nginx/default.conf /etc/nginx/conf.d/
+
+EXPOSE 80
+
+ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
